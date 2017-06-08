@@ -25,7 +25,9 @@ namespace MessageBoxDemo
         private void btnLoad_Click(object sender, EventArgs e)
         {
             MsgBox.Show("Are you sure you want to exit?", "Eror", MsgBox.Buttons.OKCancel, MsgBox.Icon.Error);
-            DialogResult result = MsgBox.Show("Are you sure you want to exit?", "Exit", MsgBox.Buttons.YesNoCancel,
+            DialogResult result = 
+				MsgBox.Show("Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?Are you sure you want to exit?",
+				"Exit", MsgBox.Buttons.YesNoCancel,
                 MsgBox.Icon.Shield);
 
             if (result == DialogResult.Yes)

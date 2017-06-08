@@ -48,21 +48,22 @@ namespace xDialog
 		private MsgBox()
 		{
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.BackColor = Color.FromArgb(45, 45, 48);
+			//this.BackColor = Color.FromArgb(45, 45, 48);
+			this.BackColor = SystemColors.Window;
 			this.StartPosition = FormStartPosition.CenterScreen;
 			this.Padding = new System.Windows.Forms.Padding(3);
 			this.Width = 400;
 
 			// Header
 			_lblTitle = new Label();
-			_lblTitle.ForeColor = Color.White;
+			_lblTitle.ForeColor = Color.Black;
 			_lblTitle.Font = new System.Drawing.Font("Segoe UI", 18);
 			_lblTitle.Dock = DockStyle.Top;
 			_lblTitle.Height = 60;
 
 			// Thông điệp
 			_lblMessage = new Label();
-			_lblMessage.ForeColor = Color.White;
+			_lblMessage.ForeColor = Color.Black;
 			_lblMessage.Font = new System.Drawing.Font("Segoe UI", 10);
 			_lblMessage.Dock = DockStyle.Fill;
 
@@ -100,7 +101,6 @@ namespace xDialog
 			_msgBox = new MsgBox();
 			_msgBox._lblMessage.Text = message;
 			_msgBox.ShowDialog();
-			//MessageBeep(0);
 		}
 
 		public static void Show(string message, string title)
