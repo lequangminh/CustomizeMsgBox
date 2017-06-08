@@ -45,13 +45,6 @@ namespace xDialog
 		// Kết quả
 		private static DialogResult _buttonResult;
 
-		// Timer hiệu ứng
-		private static Timer _timer;
-
-		// Phát tiếng Beep
-		//[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		//private static extern bool MessageBeep(uint type);
-
 		private MsgBox()
 		{
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -117,7 +110,6 @@ namespace xDialog
 			_msgBox._lblTitle.Text = title;
 			_msgBox.Size = MsgBox.MessageSize(message);
 			_msgBox.ShowDialog();
-			//MessageBeep(0);
 		}
 
 		public static DialogResult Show(string message, string title, Buttons buttons)
@@ -131,7 +123,6 @@ namespace xDialog
 
 			_msgBox.Size = MsgBox.MessageSize(message);
 			_msgBox.ShowDialog();
-			//MessageBeep(0);
 			return _buttonResult;
 		}
 
@@ -146,99 +137,7 @@ namespace xDialog
 
 			_msgBox.Size = MsgBox.MessageSize(message);
 			_msgBox.ShowDialog();
-			//MessageBeep(0);
 			return _buttonResult;
-		}
-
-		public static DialogResult Show(string message, string title, Buttons buttons, Icon icon, AnimateStyle style)
-		{
-			_msgBox = new MsgBox();
-			_msgBox._lblMessage.Text = message;
-			_msgBox._lblTitle.Text = title;
-			_msgBox.Height = 0;
-
-			MsgBox.InitButtons(buttons);
-			MsgBox.InitIcon(icon);
-
-			_timer = new Timer();
-			Size formSize = MsgBox.MessageSize(message);
-
-			switch (style)
-			{
-				case MsgBox.AnimateStyle.SlideDown:
-					_msgBox.Size = new Size(formSize.Width, 0);
-					_timer.Interval = 1;
-					_timer.Tag = new AnimateMsgBox(formSize, style);
-					break;
-
-				case MsgBox.AnimateStyle.FadeIn:
-					_msgBox.Size = formSize;
-					_msgBox.Opacity = 0;
-					_timer.Interval = 20;
-					_timer.Tag = new AnimateMsgBox(formSize, style);
-					break;
-
-				case MsgBox.AnimateStyle.ZoomIn:
-					_msgBox.Size = new Size(formSize.Width + 100, formSize.Height + 100);
-					_timer.Tag = new AnimateMsgBox(formSize, style);
-					_timer.Interval = 1;
-					break;
-			}
-
-			_timer.Tick += timer_Tick;
-			_timer.Start();
-
-			_msgBox.ShowDialog();
-			//MessageBeep(0);
-			return _buttonResult;
-		}
-
-		private static void timer_Tick(object sender, EventArgs e)
-		{
-			Timer timer = (Timer) sender;
-			AnimateMsgBox animate = (AnimateMsgBox) timer.Tag;
-
-			switch (animate.Style)
-			{
-				case MsgBox.AnimateStyle.SlideDown:
-					if (_msgBox.Height < animate.FormSize.Height)
-					{
-						_msgBox.Height += 17;
-						_msgBox.Invalidate();
-					}
-					else
-					{
-						_timer.Stop();
-						_timer.Dispose();
-					}
-					break;
-
-				case MsgBox.AnimateStyle.FadeIn:
-					if (_msgBox.Opacity < 1)
-					{
-						_msgBox.Opacity += 0.1;
-						_msgBox.Invalidate();
-					}
-					else
-					{
-						_timer.Stop();
-						_timer.Dispose();
-					}
-					break;
-
-				case MsgBox.AnimateStyle.ZoomIn:
-					if (_msgBox.Width > animate.FormSize.Width)
-					{
-						_msgBox.Width -= 17;
-						_msgBox.Invalidate();
-					}
-					if (_msgBox.Height > animate.FormSize.Height)
-					{
-						_msgBox.Height -= 17;
-						_msgBox.Invalidate();
-					}
-					break;
-			}
 		}
 
 		private static void InitButtons(Buttons buttons)
